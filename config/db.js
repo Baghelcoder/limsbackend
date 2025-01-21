@@ -36,7 +36,7 @@ const associate = require('../schemas/associate');
 associate(models);
 
 // Sync all models with the database{ alter: true }
-sequelize.sync()
+sequelize.sync({alert:true})
     .then(() => console.log("Database synced successfully"))
     .catch(err => console.error("Failed to sync database:", err));
 
