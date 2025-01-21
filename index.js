@@ -5,9 +5,13 @@ const { logError } = require('./routes/logError');
 const app = express();
 require("dotenv").config();
 const port = process.env.db_port;
+const allowedOrigins = ['https://main.d3iojks81ytumc.amplifyapp.com']; // Replace with your Netlify domain
 
-// Middleware setup
-app.use(cors());
+app.use(cors({
+  origin: allowedOrigins,
+  methods: 'GET,POST,PUT,DELETE', // Allow methods as needed
+  credentials: true, // If your API requires cookies or authorization headers
+}));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(require("./routes/authRoutes"));
