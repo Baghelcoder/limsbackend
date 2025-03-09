@@ -8,18 +8,9 @@ const sequelize = new Sequelize(process.env.db_name, process.env.db_username, pr
     dialect: 'mysql',
     logging: false,
     waitForConnections: true,
-    dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false // Required for Azure MySQL
-    }
-  },
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
+     dialectOptions: {
+       connectTimeout: 10000, // Increase connection timeout
+     },
     timezone: '+05:30'
 });
 
