@@ -9,7 +9,7 @@ const sequelize = new Sequelize(process.env.db_name, process.env.db_username, pr
     logging: false,
     waitForConnections: true,
      dialectOptions: {
-       connectTimeout: 10000, // Increase connection timeout
+       connectTimeout: 60000, // Increase connection timeout
         //    ssl: {
         //     require: true,  // Aiven requires SSL
         //     rejectUnauthorized: false // Allow self-signed certs (optional)
