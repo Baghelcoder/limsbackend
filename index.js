@@ -55,26 +55,26 @@ app.use(async(err, req, res, next) => {
 //     console.log(`Hashed password for "admin": ${hash}`);
 // });
 
- const mysql = require('mysql2/promise');
+ // const mysql = require('mysql2/promise');
 
- async function testConnection() {
-     try {
-         const connection = await mysql.createConnection({
-             host: 'mysql-3ae69e4c-okayjaanu7m-fe08.d.aivencloud.com',
-             port: 22219,
-             user: 'avnadmin',
-             password: 'AVNS_zLTpAhM-WpRXXdiHkfj',
-             database: 'defaultdb',
-             connectTimeout: 60000
-         });
-         console.log('Connected to the database!');
-         connection.end();
-     } catch (error) {
-         console.error('Connection failed:', error);
-     }
- }
+ // async function testConnection() {
+ //     try {
+ //         const connection = await mysql.createConnection({
+ //             host: 'mysql-3ae69e4c-okayjaanu7m-fe08.d.aivencloud.com',
+ //             port: 22219,
+ //             user: 'avnadmin',
+ //             password: 'AVNS_zLTpAhM-WpRXXdiHkfj',
+ //             database: 'defaultdb',
+ //             connectTimeout: 60000
+ //         });
+ //         console.log('Connected to the database!');
+ //         connection.end();
+ //     } catch (error) {
+ //         console.error('Connection failed:', error);
+ //     }
+ // }
 
- testConnection();
+ // testConnection();
 
 // Route to get all error logs
 // $2a$10$f/vqXC9x.01eLc1PPG35u.AKc0Y8nMgocSWMJqM1g8CHKWIQYtOyO
