@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         userTimezone: {
             type: DataTypes.STRING, // Example: 'America/New_York', 'Europe/London'
-            allowNull: false, // or true, depending on your requirements
+            allowNull: true, // or true, depending on your requirements
         },
     }, {
         timestamps: false

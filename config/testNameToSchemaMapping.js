@@ -41,6 +41,12 @@ const testNameToSchemaMapping = {
         'Fineness (by Dry Sieve Method)': 'CementbyDrySieving',
         'Soundness (by Le-Chatelier)': 'CementSoundnessByLeChatelierMethod',
         'Density': 'DensityOfCementUsingLeChatelierFlask'
+    },
+    'Admixture/ Bipolar': {
+        'Chloride Content': 'ChlorideContentofAdmixture',
+        'Ash Content': 'AshContentofAdmixture',
+        'Dry Material Content': 'DryContentofAdmixture',
+        'pH Value': 'PhValueofAdmixture'
     }
 };
 

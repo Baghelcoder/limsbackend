@@ -12,7 +12,8 @@ const { getInfoData, processinfoMappings } = require('../config/getInfoFieldMapp
 const testNameToSchemaMapping = require('../config/testNameToSchemaMapping');
 const schemasConfig = require('../config/schemasConfig');
 const defineAssociations = require('../config/dynamicAssociations');
-const applyConditionalFields = require('../config/applyConditionalFields')
+const applyConditionalFields = require('../config/applyConditionalFields');
+const { copyStringIntoBuffer } = require('pdf-lib');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -359,6 +360,7 @@ router.get('/api/templates', authenticateToken, async(req, res) => {
                 acc[header] = responseData[fieldKey] || "";
             }
             return acc;
+
         }, {});
         // Merge single-occurrence fields with repeatable fields
         const populatedValues = {

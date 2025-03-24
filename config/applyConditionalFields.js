@@ -17,6 +17,9 @@ const fieldMapping = {
         'Fineness (by Dry Sieve Method)': ['Mean'],
         'Soundness (by Le-Chatelier)': ['roomtemp', 'roomhumidity', 'cementweight', 'waterweight', 'Mean'],
         'Density': ['roomtemp', 'kerosenedensity', 'Mean']
+    },
+    'Admixture/ Bipolar': {
+        'pH Value': ['Mean', 'labtemp', 'samplevalue']
     }
 };
 

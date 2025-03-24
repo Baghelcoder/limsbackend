@@ -16,7 +16,7 @@ const authenticateToken = (req, res, next) => {
     } catch (error) {
         logError(error.message, error.stack, {...req.body });
         // Send a single response in case of an error
-        return res.status(500).json({ error: 'invalid token' });
+        return res.status(401).json({ error: 'invalid token' });
     }
 };
 

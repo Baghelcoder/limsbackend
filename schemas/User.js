@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
         username: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: 'users_username_unique'
         },
         password: {
             type: DataTypes.STRING,
@@ -45,11 +44,6 @@ module.exports = (sequelize, DataTypes) => {
         }
     }, {
         timestamps: false,
-        indexes: [{
-            unique: true,
-            fields: ['username'],
-            name: 'username'
-        }]
     });
-    return User
+    return User;
 }

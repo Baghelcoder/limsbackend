@@ -1,28 +1,64 @@
+const fs = require('fs');
+const https = require('https');
+const http = require('http');
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const compression = require('compression');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const { logError } = require('./routes/logError');
-const app = express();
+const path = require('path');
 require("dotenv").config();
+const app = express();
 const port = process.env.db_port;
 
+// Load SSL Certificate
+const options = {
+    key: fs.readFileSync('private-key.pem'),
+    cert: fs.readFileSync('certificate.pem')
+};
+
+
 // Middleware setup
-app.use(cors());
+app.use(helmet());
+// Customize Content-Security-Policy
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: ["'self'"],
+            imgSrc: ["'self'", "data:", "https://localhost:3001"], // Allow images from the backend
+        },
+    })
+);
+app.use(compression());
+// app.use(cors());
+app.use(cors({
+    origin: "https://localhost:3000", // Allow frontend
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+    allowedHeaders: "Content-Type, Authorization",
+    optionsSuccessStatus: 200,
+}));
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+});
+// Serve static files (including images) from the public folder
+app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use(limiter);
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(require("./routes/authRoutes"));
-app.use(require("./routes/adminRoutes"))
-app.use(require("./routes/clientRoutes"));
-app.use(require("./routes/Masters"))
-app.use(require("./routes/assinepage"))
-app.use(require("./routes/CustomerReOrder"))
-app.use(require('./routes/TestDataSheetData'))
-app.use(require("./routes/Reports"))
-app.use(require("./routes/staffmaster"))
-app.use(require('./routes/URLNumber'))
-app.use(require("./routes/reportnotes"))
-app.use(require("./routes/masterlistofrecord"))
-app.use(require("./routes/Entrytemplate"))
+const routes = [
+    "authRoutes", "adminRoutes", "clientRoutes", "Masters",
+    "assinepage", "CustomerReOrder", "TestDataSheetData",
+    "Reports", "staffmaster", "URLNumber", "reportnotes",
+    "masterlistofrecord", "Entrytemplate"
+];
+
+routes.forEach(route => {
+    app.use(require(`./routes/${route}`));
+});
 
 
 // Logging middleware to debug incoming requests
@@ -34,9 +70,18 @@ app.use(require("./routes/Entrytemplate"))
 app.use(async(err, req, res, next) => {
     // Log the error
     await logError(err.message, err.stack, { url: req.originalUrl, method: req.method });
+    // Prevent duplicate response
+    if (res.headersSent) {
+        return next(err);
+    }
+
     // Respond to the client
     res.status(500).json({ error: 'Something went wrong!' });
 });
+
+app.get("/", (req, res) => {
+    res.send('hello yogesh')
+})
 
 // const bcrypt = require('bcryptjs');
 
@@ -51,36 +96,18 @@ app.use(async(err, req, res, next) => {
 //     console.log(`Hashed password for "admin": ${hash}`);
 // });
 
-// const mysql = require('mysql2/promise');
-
-// async function testConnection() {
-//     try {
-//         const connection = await mysql.createConnection({
-//             host: 'autorack.proxy.rlwy.net',
-//             port: 59387,
-//             user: 'root',
-//             password: 'iHBZSOTPmTaTiVFmUsyxmLFAlngsopJt',
-//             database: 'railway',
-//             connectTimeout: 60000
-//         });
-//         console.log('Connected to the database!');
-//         connection.end();
-//     } catch (error) {
-//         console.error('Connection failed:', error);
-//     }
-// }
-
-// testConnection();
-
 // Route to get all error logs
 // $2a$10$f/vqXC9x.01eLc1PPG35u.AKc0Y8nMgocSWMJqM1g8CHKWIQYtOyO
 
+// Start HTTPS Server
+https.createServer(options, app).listen(port, () => {
+    console.log(`🔐 Worker ${process.pid} running on HTTPS (Port ${port})`);
+});
 
-
-app.listen(port, (req, res) => {
-    try {
-        console.log(`http://localhost:${port}`);
-    } catch (e) {
-        console.log(e);
-    }
+// Redirect HTTP to HTTPS
+http.createServer((req, res) => {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
+}).listen(80, () => {
+    console.log(`🚀 Worker ${process.pid} redirecting HTTP to HTTPS (Port 80)`);
 });

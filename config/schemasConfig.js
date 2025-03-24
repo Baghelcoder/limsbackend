@@ -809,7 +809,101 @@ const schemasConfig = {
             jointkey: 'cementdensitylichatelier',
             testId: '31'
         }
-    }
+    },
+    ChlorideContentofAdmixture: {
+        model1: {...baseModelConfig },
+        model2: {
+            model: 'ChlorideContentofAdmixture2', // Second model if needed
+            path: '../schemas/ChlorideContentofAdmixture', // Adjust path accordingly
+            fields: {
+                samplevolume: "samplevolume",
+                ammoniumvolume: 'ammoniumvolume',
+                nitratevolume: 'nitratevolume',
+                chloridecontent: 'chloridecontent',
+            },
+            relation: 'child', // Define as child
+            parentKey: 'CommonschemaId', // Foreign key linking to parent
+            testjointkey: 'chcoadtest',
+            labjointkey: 'chcoadjob',
+            Userjointkey: 'chcoadUser',
+            jointkey: "chloridadmixture",
+            testId: '31'
+        }
+    },
+    AshContentofAdmixture: {
+        model1: {...baseModelConfig },
+        model2: {
+            model: 'AshContentofAdmixture2', // Second model if needed
+            path: '../schemas/AshContentofAdmixture', // Adjust path accordingly
+            fields: {
+                W1: "W1",
+                W2: 'W2',
+                W3: 'W3',
+                ashcontent: 'ashcontent',
+            },
+            relation: 'child', // Define as child
+            parentKey: 'CommonschemaId', // Foreign key linking to parent
+            testjointkey: 'ashcoadtest',
+            labjointkey: 'ashcoadjob',
+            Userjointkey: 'ashcoadUser',
+            jointkey: "ashadmixture",
+            testId: '32'
+        }
+    },
+    DryContentofAdmixture: {
+        model1: {...baseModelConfig },
+        model2: {
+            model: 'DryContentofAdmixture2', // Second model if needed
+            path: '../schemas/DryContentofAdmixture', // Adjust path accordingly
+            fields: {
+                W1: "W1",
+                W2: 'W2',
+                W3: 'W3',
+                drycontent: 'drycontent',
+            },
+            relation: 'child', // Define as child
+            parentKey: 'CommonschemaId', // Foreign key linking to parent
+            testjointkey: 'drycoadtest',
+            labjointkey: 'drycoadjob',
+            Userjointkey: 'drycoadUser',
+            jointkey: "dryadmixture",
+            testId: '33'
+        }
+    },
+    PhValueofAdmixture: {
+        model1: {
+            model: 'PhValueofAdmixture1',
+            path: '../schemas/PhValueofAdmixture',
+            fields: {
+                labJobId: 'labjobid',
+                testId: 'testid',
+                SampleTested: 'SampleTested',
+                unit: 'unit',
+                Mean: 'Mean',
+                labtemp: 'labtemp',
+                samplevalue: 'samplevalue',
+            },
+            relation: 'parent',
+            testid: 'testId',
+            labjobid: 'labJobId',
+            UserId: 'UserId',
+        },
+        model2: {
+            model: 'PhValueofAdmixture2',
+            path: '../schemas/PhValueofAdmixture',
+            fields: {
+                phvalue: "phvalue",
+                remarks: 'remarks',
+            },
+            relation: 'child', // Define as child
+            parentKey: 'PhValueofAdmixture1Id', // Foreign key linking to parent
+            testjointkey: 'phvatest',
+            labjointkey: 'phvajob',
+            Userjointkey: "phvaUser",
+            jointkey: 'phofadmixture',
+            testId: '34'
+        }
+    },
 };
 
 module.exports = schemasConfig;
