@@ -43,7 +43,6 @@ fs.readdirSync(modelsDir)
 const associate = require('../schemas/associate');
 associate(models);
 
-// Sync all models with the database{ alter: true }
 // Function to handle database connection & reconnection
 // Sync all models with the database{ alter: true }
 sequelize.sync({ alert: true })
