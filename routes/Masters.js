@@ -13,7 +13,6 @@ const testNameToSchemaMapping = require('../config/testNameToSchemaMapping');
 const schemasConfig = require('../config/schemasConfig');
 const defineAssociations = require('../config/dynamicAssociations');
 const applyConditionalFields = require('../config/applyConditionalFields');
-const { copyStringIntoBuffer } = require('pdf-lib');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
