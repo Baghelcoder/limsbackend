@@ -23,14 +23,14 @@ const options = {
 // Middleware setup
 app.use(helmet());
 // Customize Content-Security-Policy
-app.use(
-    helmet.contentSecurityPolicy({
-        directives: {
-            defaultSrc: ["'self'"],
-            imgSrc: ["'self'", "data:", "https://localhost:3001"], // Allow images from the backend
-        },
-    })
-);
+// app.use(
+//     helmet.contentSecurityPolicy({
+//         directives: {
+//             defaultSrc: ["'self'"],
+//             imgSrc: ["'self'", "data:", "https://localhost:3001"], // Allow images from the backend
+//         },
+//     })
+// );
 app.use(compression());
 // app.use(cors());
 app.use(cors({
