@@ -100,34 +100,20 @@ app.get("/", (req, res) => {
 // $2a$10$f/vqXC9x.01eLc1PPG35u.AKc0Y8nMgocSWMJqM1g8CHKWIQYtOyO
 
 // Start HTTPS Server
-https.createServer(options, app).listen(port, () => {
-    console.log(`🔐 Worker ${process.pid} running on HTTPS (Port ${port})`);
-});
+// Start Server
+if (options) {
+    https.createServer(options, app).listen(port, () => {
+        console.log(`🔐 HTTPS Server running on port ${port}`);
+    });
 
-// Redirect HTTP to HTTPS
-http.createServer((req, res) => {
-    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-    res.end();
-}).listen(80, () => {
-    console.log(`🚀 Worker ${process.pid} redirecting HTTP to HTTPS (Port 80)`);
-});
-console.log(`🔐 Worker ${process.pid} running on HTTPS (Port ${port})`);
-
-
-
-// Redirect HTTP to HTTPS
-http.createServer((req, res) => {
-    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-    res.end();
-}).listen(80, () => {
-    console.log(`🚀 Worker ${process.pid} redirecting HTTP to HTTPS (Port 80)`);
-});
-
-
-app.listen(port, (req, res) => {
-    try {
-        console.log(`http://localhost:${port}`);
-    } catch (e) {
-        console.log(e);
-    }
-});
+    http.createServer((req, res) => {
+        res.writeHead(301, { "Location": `https://${req.headers['host']}${req.url}` });
+        res.end();
+    }).listen(8080, () => {
+        console.log(`🚀 HTTP requests on port 80 will be redirected to HTTPS`);
+    });
+} else {
+    app.listen(port, () => {
+        console.log(`🚀 Server running on port ${port} (HTTP only)`);
+    });
+}
